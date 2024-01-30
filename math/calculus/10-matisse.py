@@ -9,7 +9,7 @@ def poly_derivative(poly):
     '''
         calculates the derivative of a polynomial
     '''
-    if type(poly) is not list or len(poly) <= 1:
+    if type(poly) is not list and len(poly) <= 1:
         return None
     elif len(poly) <= 1:
         return [0]
