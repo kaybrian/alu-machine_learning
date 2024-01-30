@@ -11,7 +11,7 @@ def summation_i_squared(n):
     calculates the summation
     of all numbers from 1 to n
     '''
-    sum = 0
-    for i in range(1, n + 1):
-        sum += i ** 2
-    return sum
+    if type(n) is not int or n < 1:
+        return None
+    sigma_sum = (n * (n + 1) * ((2 * n) + 1)) / 6
+    return int(sigma_sum)
