@@ -10,6 +10,16 @@ class Poisson:
         Class Poisson that represents a
         distribution of Poisson
     '''
+    def factorial(self, k):
+        '''
+            Calculates the factorial
+        '''
+        if k < 0:
+            return 0
+        if k == 0 or k == 1:
+            return 1
+        return k * self.factorial(k - 1)
+
     def __init__(self, data=None, lambtha=1.):
         '''
             Class constructor
@@ -24,3 +34,15 @@ class Poisson:
             if len(data) < 2:
                 raise ValueError('data must contain multiple values')
             self.lambtha = float(sum(data) / len(data))
+
+    def pmf(self, k):
+        '''
+            Calculates the value of the
+            PMF for a given number of successes
+        '''
+        if k < 0:
+            return 0
+        k = int(k)
+        e = 2.7182818285
+        return ((self.lambtha ** k) * (e ** (-self.lambtha))
+                ) / (self.factorial(k))
