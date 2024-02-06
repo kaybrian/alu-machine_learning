@@ -15,18 +15,21 @@ class Normal:
             Class constructor
         '''
         if data is None:
-            if stddev <= 0:
-                raise ValueError('stddev must be a positive value')
-            self.stddev = float(stddev)
-            if mean <= 0:
-                raise ValueError('mean must be a positive value')
-            self.mean = float(mean)
+            if stddev < 1:
+                raise ValueError("stddev must be a positive value")
+            else:
+                self.stddev = float(stddev)
+                self.mean = float(mean)
         else:
             if type(data) is not list:
-                raise TypeError('data must be a list')
-            if len(data) < 2:
-                raise ValueError('data must contain multiple values')
-            self.mean = float(sum(data) / len(data))
-            self.stddev = float(
-                (sum([(x - self.mean) ** 2 for x in data]) / len(data)) ** 0.5
-            )
+                raise TypeError("data must be a list")
+            elif len(data) < 2:
+                raise ValueError("data must contain multiple values")
+            else:
+                mean = float(sum(data) / len(data))
+                self.mean = mean
+                summation = 0
+                for x in data:
+                    summation += ((x - mean) ** 2)
+                stddev = (summation / len(data)) ** (1 / 2)
+                self.stddev = stddev
