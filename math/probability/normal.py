@@ -59,3 +59,18 @@ class Normal:
         coefficient = 1 / (stddev * ((2 * pi) ** (1 / 2)))
         pdf = coefficient * (e ** power)
         return pdf
+
+    def cdf(self, x):
+        '''
+            Calculates the value of the
+            CDF for a given x-value
+        '''
+        mean = self.mean
+        stddev = self.stddev
+        pi = 3.1415926536
+        value = (x - mean) / (stddev * (2 ** (1 / 2)))
+        val = value - ((value ** 3) / 3) + ((value ** 5) / 10)
+        val = val - ((value ** 7) / 42) + ((value ** 9) / 216)
+        val *= (2 / (pi ** (1 / 2)))
+        cdf = (1 / 2) * (1 + val)
+        return cdf
