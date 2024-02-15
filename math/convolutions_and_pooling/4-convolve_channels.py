@@ -1,4 +1,13 @@
+#!/usr/bin/env python3
+"""
+    A function def
+    convolve(images, kernels, padding='same', stride=(1, 1)):
+    that performs a convolution on images using multiple kernels:
+"""
+
+
 import numpy as np
+
 
 def convolve_channels(images, kernel, padding='same', stride=(1, 1)):
     """
