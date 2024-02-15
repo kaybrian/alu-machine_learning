@@ -65,6 +65,6 @@ def convolve_channels(images, kernel, padding='same', stride=(1, 1)):
             for j, w in enumerate(range(0, (width + (2 * pw) - kw + 1), sw)):
                 output = np.sum(images[:, h: h + kh, w: w + kw, :]
                                 * kernel_index, axis=(1, 2, 3))
-                convoluted[:, i, j] = output
+                convoluted[:, i, j, index] = output
 
     return convoluted
