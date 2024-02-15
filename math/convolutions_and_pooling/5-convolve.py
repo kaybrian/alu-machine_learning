@@ -9,7 +9,7 @@
 import numpy as np
 
 
-def convolve_channels(images, kernel, padding='same', stride=(1, 1)):
+def convolve(images, kernels, padding='same', stride=(1, 1)):
     """
     Performs a convolution on images with multiple channels
     using given padding and stride
@@ -43,7 +43,7 @@ def convolve_channels(images, kernel, padding='same', stride=(1, 1)):
         numpy.ndarray contained convolved images
     """
     m, height, width, c = images.shape
-    kh, kw, kc, nc = kernel.shape
+    kh, kw, kc, nc = kernels.shape
     sh, sw = stride
     if padding is 'same':
         ph = ((((height - 1) * sh) + kh - height) // 2) + 1
@@ -60,7 +60,7 @@ def convolve_channels(images, kernel, padding='same', stride=(1, 1)):
     convoluted = np.zeros((m, ch, cw, nc))
 
     for index in range(nc):
-        kernel_index = kernel[:, :, :, index]
+        kernel_index = kernels[:, :, :, index]
         for i, h in enumerate(range(0, (height + (2 * ph) - kh + 1), sh)):
             for j, w in enumerate(range(0, (width + (2 * pw) - kw + 1), sw)):
                 output = np.sum(images[:, h: h + kh, w: w + kw, :]
