@@ -45,10 +45,10 @@ def convolve_channels(images, kernel, padding='same', stride=(1, 1)):
     m, height, width, c = images.shape
     kh, kw, kc, nc = kernel.shape
     sh, sw = stride
-    if padding == 'same':
+    if padding is 'same':
         ph = ((((height - 1) * sh) + kh - height) // 2) + 1
         pw = ((((width - 1) * sw) + kw - width) // 2) + 1
-    elif padding == 'valid':
+    elif padding is 'valid':
         ph = 0
         pw = 0
     else:
