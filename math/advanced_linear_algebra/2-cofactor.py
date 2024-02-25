@@ -1,24 +1,73 @@
 #!/usr/bin/env python3
+"""
+    Defines function that calculates the cofactor matrix of a matrix
+"""
 
-if __name__ == '__main__':
-    cofactor = __import__('2-cofactor').cofactor
 
-    mat1 = [[5]]
-    mat2 = [[1, 2], [3, 4]]
-    mat3 = [[1, 1], [1, 1]]
-    mat4 = [[5, 7, 9], [3, 1, 8], [6, 2, 4]]
-    mat5 = []
-    mat6 = [[1, 2, 3], [4, 5, 6]]
+def cofactor(matrix):
+    """
+    Calculates the cofactor matrix of a matrix
 
-    print(cofactor(mat1))
-    print(cofactor(mat2))
-    print(cofactor(mat3))
-    print(cofactor(mat4))
-    try:
-        cofactor(mat5)
-    except Exception as e:
-        print(e)
-    try:
-        cofactor(mat6)
-    except Exception as e:
-        print(e)
+    Args:
+        matrix (list of lists): Matrix whose cofactor
+        matrix should be calculated
+
+    Returns:
+        list of lists: The cofactor matrix of matrix
+    """
+    if not isinstance(matrix, list) or not all(isinstance(row, list)
+                                               for row in matrix):
+        raise TypeError("matrix must be a list of lists")
+    if not matrix:
+        raise ValueError("matrix must be a non-empty square matrix")
+    height = len(matrix)
+    if any(len(row) != height for row in matrix):
+        raise ValueError("matrix must be a square matrix")
+
+    if height == 1:
+        return [[1]]
+
+    cofactor_matrix = []
+    for row_i in range(height):
+        cofactor_row = []
+        for column_i in range(height):
+            sub_matrix = [row[:column_i] + row[column_i+1:]
+                          for row in (matrix[:row_i] + matrix[row_i+1:])]
+            determinant_value = determinant(sub_matrix)
+            cofactor_row.append((-1) ** (row_i + column_i) * determinant_value)
+        cofactor_matrix.append(cofactor_row)
+
+    return cofactor_matrix
+
+
+def determinant(matrix):
+    """
+    Calculates the determinant of a matrix
+
+    Args:
+        matrix (list of lists): Matrix whose determinant should be calculated
+
+    Returns:
+        int or float: The determinant of matrix
+    """
+    if not isinstance(matrix, list) or not all(isinstance(row, list)
+                                               for row in matrix):
+        raise TypeError("matrix must be a list of lists")
+    height = len(matrix)
+    if not matrix:
+        raise ValueError("matrix must be a non-empty square matrix")
+    for row in matrix:
+        if len(row) != height:
+            raise ValueError("matrix must be a square matrix")
+
+    if height == 1:
+        return matrix[0][0]
+    elif height == 2:
+        a, b, c, d = matrix[0][0], matrix[0][1], matrix[1][0], matrix[1][1]
+        return a * d - b * c
+
+    det = 0
+    for i, element in enumerate(matrix[0]):
+        sub_matrix = [row[:i] + row[i+1:] for row in matrix[1:]]
+        det += element * (-1) ** i * determinant(sub_matrix)
+    return det
