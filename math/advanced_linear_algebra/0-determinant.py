@@ -17,27 +17,37 @@ def determinant(matrix):
 
     """
     # Check if the input is a list of lists
-    if not all(isinstance(row, list) for row in matrix):
+    if isinstance(matrix, list) is False:
         raise TypeError("matrix must be a list of lists")
-    if not isinstance(matrix, list):
+    height = len(matrix)
+    if height == 0:
         raise TypeError("matrix must be a list of lists")
-
-    # Check if the matrix is square
-    num_rows = len(matrix)
-    if num_rows != len(matrix[0]):
-        raise ValueError("matrix must be a square matrix")
-
-    # Base case: 0x0 matrix has determinant 1
-    if num_rows == 0:
-        return 1
-
-    # Base case: 1x1 matrix has determinant equal to its element
-    if num_rows == 1:
+    for row in matrix:
+        if isinstance(row, list) is False:
+            raise TypeError("matrix must be a list of lists")
+        if len(row) == 0 and height == 1:
+            return 1
+        if len(row) != height:
+            raise ValueError("matrix must be a square matrix")
+    if height == 1:
         return matrix[0][0]
+    if height == 2:
+        return (matrix[0][0] * matrix[0][1]) - (matrix[1][0] * matrix[1][1])
 
-    det = 0
-    for col in range(num_rows):
-        minor = [row[:col] + row[col + 1:] for row in matrix[1:]]
-        det += (-1) ** col * matrix[0][col] * determinant(minor)
-
-    return det
+    multiplier = 1
+    d = 0
+    for i in range(height):
+        element = matrix[0][i]
+        sub_matrix = []
+        for row in range(height):
+            if row == 0:
+                continue
+            new_row = []
+            for column in range(height):
+                if column == i:
+                    continue
+                new_row.append(matrix[row][column])
+            sub_matrix.append(new_row)
+        d += element * multiplier * determinant(sub_matrix)
+        multiplier *= -1
+    return d
