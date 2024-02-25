@@ -15,7 +15,8 @@ def minor(matrix):
     Returns:
         list of lists: The minor matrix of matrix
     """
-    if not isinstance(matrix, list) or not all(isinstance(row, list) for row in matrix):
+    if not isinstance(matrix, list) or not all(isinstance(row, list)
+                                               for row in matrix):
         raise TypeError("matrix must be a list of lists")
     if not matrix:
         raise ValueError("matrix must be a non-empty square matrix")
@@ -31,8 +32,8 @@ def minor(matrix):
         minor_row = []
         for column_i in range(height):
             sub_matrix = [
-                row[:column_i] + row[column_i + 1 :]
-                for row in (matrix[:row_i] + matrix[row_i + 1 :])
+                row[:column_i] + row[column_i + 1:]
+                for row in (matrix[:row_i] + matrix[row_i + 1:])
             ]
             minor_row.append(determinant(sub_matrix))
         minor_matrix.append(minor_row)
@@ -49,7 +50,8 @@ def determinant(matrix):
     Returns:
         int or float: The determinant of matrix
     """
-    if not isinstance(matrix, list) or not all(isinstance(row, list) for row in matrix):
+    if not isinstance(matrix, list) or not all(isinstance(row, list)
+                                               for row in matrix):
         raise TypeError("matrix must be a list of lists")
     height = len(matrix)
     if not matrix:
@@ -66,6 +68,6 @@ def determinant(matrix):
 
     det = 0
     for i, element in enumerate(matrix[0]):
-        sub_matrix = [row[:i] + row[i + 1 :] for row in matrix[1:]]
+        sub_matrix = [row[:i] + row[i + 1:] for row in matrix[1:]]
         det += element * (-1) ** i * determinant(sub_matrix)
     return det
