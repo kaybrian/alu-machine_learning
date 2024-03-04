@@ -27,12 +27,7 @@ def mean_cov(X):
         raise ValueError("X must contain multiple data points")
 
     n, d = X.shape
-    mean = np.mean(X, axis=0)
+    mean = np.mean(X, axis=0, keepdims=True)
     centered_data = X - mean
     cov = np.dot(centered_data.T, centered_data) / (n - 1)
-
-    mean_str = np.array2string(mean, separator=',')
-    mean_str = mean_str.replace('\n', ' ').replace('[', '').replace(']', '')
-    mean = np.fromstring(mean_str, sep=',')
-
     return mean, cov
