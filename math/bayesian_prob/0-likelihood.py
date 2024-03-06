@@ -7,7 +7,6 @@ probabilities of developing severe side effects
 
 
 import numpy as np
-from math import comb
 
 
 def likelihood(x, n, P):
