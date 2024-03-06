@@ -23,7 +23,7 @@ def intersection(x, n, P, Pr):
     Returns:
         the probability of obtaining the data
     """
-     # Check if n is a positive integer
+    # Check if n is a positive integer
     if not isinstance(n, int) or n <= 0:
         raise ValueError("n must be a positive integer")
 
@@ -62,4 +62,3 @@ def intersection(x, n, P, Pr):
     intersection = likelihood * Pr
 
     return intersection
-
