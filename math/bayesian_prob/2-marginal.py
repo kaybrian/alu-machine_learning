@@ -46,7 +46,6 @@ def marginal(x, n, P, Pr):
             "Pr must be a numpy.ndarray with the same shape as P"
         )
 
-    # any value in P or Pr is not in the range [0, 1]
     for value in range(P.shape[0]):
         if P[value] > 1 or P[value] < 0:
             raise ValueError("All values in P must be in the range [0, 1]")
@@ -54,13 +53,13 @@ def marginal(x, n, P, Pr):
             raise ValueError("All values in Pr must be in the range [0, 1]")
     if np.isclose([np.sum(Pr)], [1]) == [False]:
         raise ValueError("Pr must sum to 1")
-
-        # likelihood calculated as binomial distribution
+    # likelihood calculated as binomial distribution
     factorial = np.math.factorial
     fact_coefficient = factorial(n) / (factorial(n - x) * factorial(x))
     likelihood = fact_coefficient * (P ** x) * ((1 - P) ** (n - x))
-
     # intersection is the likelihood times priors
     intersection = likelihood * Pr
-    return intersection
+    # marginal probability is the sum over all probabilities of events
+    marginal = np.sum(intersection)
 
+    return marginal
