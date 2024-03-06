@@ -40,13 +40,10 @@ def likelihood(x, n, P):
 
     # Check if all values in p are in the range [0, 1]
     if np.any((P < 0) | (P > 1)):
-        raise ValueError("All values in p must be in the range [0, 1]")
+        raise ValueError("All values in P must be in the range [0, 1]")
 
     # Calculate the combination using np.math.factorial
-    comb = np.math.factorial(n) // (np.math.factorial(x)
-                                    * np.math.factorial(n - x))
-
-    # Calculate the likelihood for each probability in p
-    likelihoods = comb * P**x * (1 - P)**(n - x)
-
-    return np.array(likelihoods)
+    factorial = np.math.factorial
+    fact_coefficient = factorial(n) / (factorial(n - x) * factorial(x))
+    likelihood = fact_coefficient * (P ** x) * ((1 - P) ** (n - x))
+    return likelihood
