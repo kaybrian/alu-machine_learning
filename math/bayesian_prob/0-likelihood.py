@@ -36,7 +36,7 @@ def likelihood(x, n, P):
 
     # Check if p is a 1D numpy.ndarray
     if not isinstance(P, np.ndarray) or len(P.shape) != 1:
-        raise TypeError("p must be a 1D numpy.ndarray")
+        raise TypeError("P must be a 1D numpy.ndarray")
 
     # Check if all values in p are in the range [0, 1]
     if np.any((P < 0) | (P > 1)):
