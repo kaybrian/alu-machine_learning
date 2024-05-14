@@ -104,4 +104,5 @@ class NeuralNetwork:
         '''
         A1, A2 = self.forward_prop(X)
         cost = self.cost(Y, A2)
-        return A2, cost
+        prediction = np.where(A2 >= 0.5, 1, 0)
+        return prediction, cost
