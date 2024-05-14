@@ -32,20 +32,4 @@ class NeuralNetwork:
         self.nodes = nodes
         self.nx = nx
 
-        #  weights vector for the hidden layer
-        self.W1 = np.random.randn(self.nodes, self.nx)
-
-        # bias for the hidden layer.
-        self.b1 = 0
-
-        # Activated output for the hidden layer
-        self.A1 = 0
-
-        # weights vector for the output neuron
-        self.W2 = np.random.randn(nodes).reshape(1, nodes)
-
-        # bias for the output neuron
-        self.b2 = 0
-
-        # Activated output for the output neuron
-        self.A2 = 0
+      
