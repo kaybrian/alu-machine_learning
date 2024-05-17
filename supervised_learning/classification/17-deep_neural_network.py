@@ -40,7 +40,7 @@ class DeepNeuralNetwork:
                 ) * np.sqrt(2 / layers[i - 1])
             self.__weights["b" + str(i + 1)] = np.zeros((layers[i], 1))
 
-    # create the getter functions of the deep network 
+    # create the getter functions of the deep network
     @property
     def L(self):
         ''' return the L attribute'''
