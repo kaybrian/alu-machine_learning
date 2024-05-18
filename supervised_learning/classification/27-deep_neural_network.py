@@ -9,11 +9,13 @@ import pickle
 
 class DeepNeuralNetwork:
     """deep nn"""
-    def __init__(self, nx, layers):
+    def __init__(self, nx, layers, activation='sig'):
+        if activation not in ['sig', 'tanh']:
+            raise ValueError("activation must be 'sig' or 'tanh'")
         if not isinstance(nx, int):
-            raise TypeError("nx must be an integer")
+            raise TypeError('nx must be an integer')
         if nx < 1:
-            raise ValueError("nx must be a positive integer")
+            raise ValueError('nx must be a positive integer')
         if not isinstance(layers, list):
             raise TypeError("layers must be a list of positive integers")
         if len(layers) < 1:
@@ -22,6 +24,7 @@ class DeepNeuralNetwork:
         self.__L = len(layers)
         self.__cache = {}
         self.__weights = {}
+        self.__activation = activation
 
         for i in range(self.__L):
             if not isinstance(layers[i], int) or layers[i] < 1:
@@ -38,6 +41,11 @@ class DeepNeuralNetwork:
 
             # Zero initialization
             self.__weights['b' + str(i + 1)] = np.zeros((layers[i], 1))
+
+    @property
+    def activation(self):
+        """activation function """
+        return self.__activation
 
     @property
     def L(self):
@@ -63,9 +71,12 @@ class DeepNeuralNetwork:
             A = self.cache['A'+str(i - 1)]
             z = np.matmul(W, A) + b
             if i != self.L:
-                A = 1 / (1 + np.exp(-z))  # sigmoid fxn
+                if self.activation == 'sig':
+                    A = 1 / (1 + np.exp(-z))  # sigmoid fxn
+                elif self.activation == 'tanh':
+                    A = np.tanh(z)  # tanh fxn
             else:
-                A = np.exp(z) / np.sum(np.exp(z), axis=0)
+                A = np.exp(z) / np.sum(np.exp(z), axis=0)  # softmax fxn
             self.cache["A"+str(i)] = A
         return self.cache["A"+str(i)], self.cache
 
@@ -92,15 +103,19 @@ class DeepNeuralNetwork:
             A = cache["A" + str(i)]
             W = self.__weights["W" + str(i)]
 
-            if i == self.__L:
+            if i == self.L:
                 dz = A - Y
             else:
-                dz = da * (A * (1 - A))
+                if self.activation == 'sig':
+                    dz = da * (A * (1 - A))  # sigmoid derivative
+                elif self.activation == 'tanh':
+                    dz = da * (1 - A**2)  # tanh der
+
             db = dz.mean(axis=1, keepdims=True)
             dw = np.matmul(dz, A_prev.T) / m
             da = np.matmul(W.T, dz)
-            self.__weights['W' + str(i)] -= (alpha * dw)
-            self.__weights['b' + str(i)] -= (alpha * db)
+            self.weights['W' + str(i)] -= (alpha * dw)
+            self.weights['b' + str(i)] -= (alpha * db)
 
     def train(self, X, Y, iterations=5000,
               alpha=0.05, verbose=True, graph=True, step=100):
