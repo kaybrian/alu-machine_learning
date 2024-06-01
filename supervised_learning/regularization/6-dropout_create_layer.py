@@ -22,14 +22,15 @@ def dropout_create_layer(prev, n, activation, keep_prob):
         - the tensor output of the new layer
     """
     # Initialize weights with He initialization
-    initializer = tf.keras.initializers.he_normal()
-
-    # Create a dense layer
-    dense_layer = tf.keras.layers.Dense(
+    initializer = tf.contrib.layers.variance_scaling_initializer(
+        model="FAN_AVG"
+    )
+    layer = tf.layers.Dense(
         units=n, activation=activation, kernel_initializer=initializer
-    )(prev)
+    )
+    output = layer(prev)
 
     # Apply dropout
-    dropout_layer = tf.keras.layers.Dropout(rate=1 - keep_prob)(dense_layer)
+    layer = tf.layers.Dropout(output, rate=1 - keep_prob)
 
-    return dropout_layer
+    return layer
