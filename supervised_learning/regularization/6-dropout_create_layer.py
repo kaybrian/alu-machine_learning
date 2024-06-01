@@ -23,7 +23,7 @@ def dropout_create_layer(prev, n, activation, keep_prob):
     """
     # Initialize weights with He initialization
     initializer = tf.contrib.layers.variance_scaling_initializer(
-        model="FAN_AVG"
+        mode="FAN_AVG"
     )
     layer = tf.layers.Dense(
         units=n, activation=activation, kernel_initializer=initializer
@@ -31,6 +31,6 @@ def dropout_create_layer(prev, n, activation, keep_prob):
     output = layer(prev)
 
     # Apply dropout
-    layer = tf.layers.Dropout(output, rate=1 - keep_prob)
+    layer = tf.layers.dropout(output, rate=1 - keep_prob)
 
     return layer
