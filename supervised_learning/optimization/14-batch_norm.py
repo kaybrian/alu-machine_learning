@@ -28,18 +28,11 @@ def create_batch_norm_layer(prev, n, activation):
     Returns:
         - the activated output of the layer
     """
-    layer = tf.layers.Dense(
-        n,
-        kernel_initializer=tf.contrib.layers.variance_scaling_initializer(
-            mode="FAN_AVG"
-        ),
-        use_bias=False,
-    )
-    gamma = tf.Variable(tf.ones([n]))
-    beta = tf.Variable(tf.zeros([n]))
-    Z = layer(prev)
-    Z_norm = (Z - tf.reduce_mean(Z, axis=0)) / tf.sqrt(
-        tf.reduce_mean(tf.square(Z - tf.reduce_mean(Z, axis=0)), axis=0) + 1e-8
-    )
-    Z_tilde = gamma * Z_norm + beta
-    return activation(Z_tilde)
+    init = tf.contrib.layers.variance_scaling_initializer(mode="FAN_AVG")
+    model = tf.layers.Dense(units=n, kernel_initializer=init)
+    Z = model(prev)
+    mean, variance = tf.nn.moments(Z, axes=[0])
+    beta = tf.Variable(tf.constant(0.0, shape=[n]), trainable=True)
+    gamma = tf.Variable(tf.constant(1.0, shape=[n]), trainable=True)
+    Z_norm = tf.nn.batch_normalization(Z, mean, variance, beta, gamma, 1e-8)
+    return activation(Z_norm)
