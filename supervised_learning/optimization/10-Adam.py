@@ -24,16 +24,13 @@ def create_Adam_op(loss, alpha, beta1, beta2, epsilon):
     Returns:
         The Adam optimization operation
     """
-    t = tf.Variable(0, dtype=tf.int32, trainable=False, name='t')
-    t_update = tf.assign(t, t + 1)
-    m = tf.Variable(tf.zeros_like(loss, dtype=tf.float32), name='m')
-    v = tf.Variable(tf.zeros_like(loss, dtype=tf.float32), name='v')
-    m_t = beta1 * m + (1 - beta1) * loss
-    v_t = beta2 * v + (1 - beta2) * tf.square(loss)
-    m_t_c = m_t / (1 - tf.pow(beta1, t))
-    v_t_c = v_t / (1 - tf.pow(beta2, t))
-    op = tf.assign(m, m_t_c)
-    op2 = tf.assign(v, v_t_c)
-    with tf.control_dependencies([op, op2]):
-        return tf.assign(loss, loss - alpha * m_t_c / (tf.sqrt(v_t_c) + epsilon))
-    return op
+    # Initialize the Adam optimizer with the given parameters
+    optimizer = tf.train.AdamOptimizer(learning_rate=alpha, 
+                                       beta1=beta1, 
+                                       beta2=beta2, 
+                                       epsilon=epsilon)
+    
+    # Create the training operation by minimizing the loss
+    train_op = optimizer.minimize(loss)
+    
+    return train_op
