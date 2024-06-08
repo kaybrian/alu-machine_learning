@@ -3,6 +3,7 @@
     optimization theory
 """
 
+
 import numpy as np
 import tensorflow as tf
 
