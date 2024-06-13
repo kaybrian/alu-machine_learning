@@ -25,4 +25,4 @@ def sensitivity(confusion):
         - a numpy.ndarray of shape (classes,) containing
         the sensitivity of each class
     """
-    return np.diag(confusion) / np.sum(confusion, axis=0)
+    return np.diag(confusion) / np.sum(confusion, axis=1)
