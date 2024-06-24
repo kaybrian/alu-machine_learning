@@ -15,7 +15,7 @@ def sentientPlanets():
     """
     url = "https://swapi-api.alx-tools.com/api/species/"
     sentient_planets = []
-    sentient_classifications = ["sentient", "mammal", "reptile", "amphibian"]
+    sentient_classifications = ["sentient"]
 
     while url:
         response = requests.get(url)
