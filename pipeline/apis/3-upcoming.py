@@ -5,8 +5,7 @@
 
 
 import requests
-from datetime import datetime
-import pytz
+from datetime import datetime, timezone, timedelta
 
 
 def get_upcoming_launch():
@@ -23,10 +22,12 @@ def get_upcoming_launch():
     rocket_id = upcoming_launch["rocket"]
     launchpad_id = upcoming_launch["launchpad"]
 
-    # Convert the date to local time
-    launch_date = datetime.fromtimestamp(
-        date_unix, pytz.utc
-    ).astimezone().isoformat()
+    # Convert the date to local time (assume UTC)
+    launch_date = (
+        datetime.fromtimestamp(
+            date_unix, timezone.utc
+        ).astimezone().isoformat()
+    )
 
     # Get rocket name
     rocket_url = "https://api.spacexdata.com/v4/rockets/{}".format(rocket_id)
