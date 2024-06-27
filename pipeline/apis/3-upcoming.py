@@ -31,7 +31,9 @@ def get_upcoming_launch():
         timedelta(hours=-4))
     )
     launch_date_str = launch_date_local.strftime('%Y-%m-%dT%H:%M:%S%z')
-    launch_date_str = "{}:{}".format(launch_date_str[:-2], launch_date_str[-2:])
+    launch_date_str = "{}:{}".format(
+        launch_date_str[:-2], launch_date_str[-2:]
+    )
 
     # Get rocket name
     rocket_url = "https://api.spacexdata.com/v4/rockets/{}".format(rocket_id)
