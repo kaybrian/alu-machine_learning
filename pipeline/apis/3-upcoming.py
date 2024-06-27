@@ -9,6 +9,9 @@ from datetime import datetime, timezone, timedelta
 
 
 def get_upcoming_launch():
+    """
+    Displays the upcoming launch
+    """
     url = "https://api.spacexdata.com/v4/launches/upcoming"
     response = requests.get(url)
     launches = response.json()
