@@ -25,12 +25,13 @@ def get_upcoming_launch():
     rocket_id = upcoming_launch["rocket"]
     launchpad_id = upcoming_launch["launchpad"]
 
-    # Convert the date to local time (assume UTC)
-    launch_date = (
-        datetime.fromtimestamp(
-            date_unix, timezone.utc
-        ).astimezone().isoformat()
+    # Convert the date to the desired local time (UTC-4)
+    launch_date_utc = datetime.fromtimestamp(date_unix, tz=timezone.utc)
+    launch_date_local = launch_date_utc.astimezone(timezone(
+        timedelta(hours=-4))
     )
+    launch_date_str = launch_date_local.strftime('%Y-%m-%dT%H:%M:%S%z')
+    launch_date_str = "{}:{}".format(launch_date_str[:-2], launch_date_str[-2:])
 
     # Get rocket name
     rocket_url = "https://api.spacexdata.com/v4/rockets/{}".format(rocket_id)
@@ -49,7 +50,7 @@ def get_upcoming_launch():
     # Format the output
     formatted_output = "{} ({}) {} - {} ({})".format(
         launch_name,
-        launch_date,
+        launch_date_str,
         rocket_name,
         launchpad_name,
         launchpad_locality,
