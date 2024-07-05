@@ -5,5 +5,5 @@
 --         name = Holberton School
 --     The database name will be passed as an argument of the mysql command
 
-INSERT INTO TABLE first_table (id, name, value) VALUES (89, "Holberton School", 10);
+INSERT INTO TABLE first_table (id, name) VALUES (89, "Holberton School");
 
