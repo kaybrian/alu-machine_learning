@@ -126,7 +126,8 @@ class NST:
             the model should use the VGG19 Keras model as a base
             the model’s input should be the same as the VGG19 input
             the model’s output should be a list containing the outputs
-            of the VGG19 layers listed in style_layers followed by content _layer
+            of the VGG19 layers listed in style_layers followed by content
+            _layer
             saves the model in the instance attribute model
         '''
         VGG19_model = tf.keras.applications.VGG19(include_top=False,
