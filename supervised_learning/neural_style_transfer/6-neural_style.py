@@ -262,5 +262,7 @@ class NST:
         if not isinstance(content_output, tf.Tensor) or len(
                 content_output.shape) != 4:
             raise TypeError("content_output must be a tensor of rank 4")
-        content_cost = tf.reduce_mean(tf.square(content_output - self.content_feature))
+        content_cost = tf.reduce_mean(
+            tf.square(content_output - self.content_feature)
+        )
         return content_cost
